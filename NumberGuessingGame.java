@@ -1,58 +1,58 @@
 //TASK 1
 //QUESTION: (NUMBER GAME) GENERATE A RANDOM NUMBER. ASK THE USER TO GUESS A NUMBER BETWEEN 1 TO 100 AND COMPARE THE NUMBER WITH THE RANDOM NUMBER GENERATED, PROVIDE FEEDBACK ON WHETHER THE GUESS MADE IS CORRECT OR NOT.
 
-package Number_guessing;
+package codsoft;
 
 import java.util.*;
 
-public class Number_guessing_game 
+public class NumberGuessingGame 
 {
 	
-	int n, x, round =1, won =0;
-	static int count = 1;   //MAXIMUM FIVE CHANCES WILL BE PROVIDED IN EACH ROUND 
+	int number, randomNum, round =1, won =0;
+	static int count = 1;   
     
-    static Scanner sc = new Scanner(System.in);
+     Scanner sc = new Scanner(System.in);
 
-	//ASKING THE GUESSED NUMBER FROM THE USER
+	//Function to take a number guessed by the player/user as input
     
 	int input()
 	{
-		n = sc.nextInt();
-		return n;
+		number = sc.nextInt();
+		return number;
 	}
 	
-	//GENERATING A RANDOM NUMBER
+	//Function to generate a random number
 	
 	int random()
 	{
-		x = (int)(Math.random() * 100);
-		return x;
+		randomNum = (int)(Math.random() * 100);
+		return randomNum;
 	}
 	
-	//PERFORMING DIFFERENT OPERATIONS ACCORDING TO USER'S GUESS AND THE RANDOM NUMBER GENERATED
+	//Function which provides appropriate feedback on the guessed number after comparing it with the random number
 	
 	void play()
 	{
-		int z,d;
+		int num, randomNumber;
 		String s;
 		
-		d = random();
+		randomNumber = random();
 		
 		do
 		{
-		    z = input();
+		    num = input();
 			
-			if(z > d)
+			if(num > randomNumber)
 			{
 				System.out.println("Too high! Please guess a smaller number. \n");
 				count++;
 			}
-			else if(z < d)
+			else if(num < randomNumber)
 			{
 				System.out.println("Too low! Please guess a higher number. \n");
 				count++;
 			}
-			else if(z == d)
+			else if(num == randomNumber)
 			{
 				System.out.println("Congrats! You guessed the correct number. \n");
 				won++;
@@ -74,7 +74,7 @@ public class Number_guessing_game
 				
 			}
 			
-		}while((z != d) && (count <= 5));    
+		}while((num != randomNumber) && (count <= 5));      //maximum five chances are provided in each round  
 		
 		System.out.println("CURRENT SCORE \n Total Rounds played : "+ round + "\n Rounds Won : " + won);
 		
@@ -95,7 +95,6 @@ public class Number_guessing_game
 					System.out.println("Please guess a number between 1 to 100");
 			    	play();
 			    }
-			
 		}
 
 	}
@@ -105,7 +104,7 @@ public class Number_guessing_game
 	public static void main(String[] args) 
 	{
 		  
-		Number_guessing_game ob = new Number_guessing_game();
+		NumberGuessingGame ob = new NumberGuessingGame();
 		
 		System.out.println("You have five attempts to guess your number.");
 		System.out.println("Please guess a number between 1 to 100");
@@ -114,5 +113,4 @@ public class Number_guessing_game
 		
 	}
 	
-
 }
