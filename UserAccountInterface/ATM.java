@@ -7,114 +7,106 @@ package codsoft;
 import java.util.*;
 
 public class ATM {
-	static int accountBalance;
-	
-	 static Scanner sc = new Scanner(System.in);
-	 
-	 //function for withdrawing money
-	 
-	 public static int withdraw(int amount)
-	 {
-		 if(accountBalance < 2000)
-		 {
-			 System.out.println("Minimum amount limit reached. Sorry money cannot be withdrawn");
-			 
-			 return 0;
-		 }
-		  accountBalance = accountBalance - amount;
-		  System.out.println("Transaction successfull");
-		  
-		 return accountBalance;
-	 }
-	 
-	 //function to deposit money
-	 
-	 public static int deposit(int amount)
-	 {
-		 if(amount > 50000)
-		 {
-			 System.out.println("Maximum fifty thousand rupees can be deposited at once.");
-			 
-			 return 0;
-		 }
-		 accountBalance = accountBalance + amount;
-		 System.out.println("Transaction successfull");
-		 
-		 return accountBalance;
-	 }
-	 
-	 //function to check account balance
-	 
-	 public static int checkBalance()
-	 {
-		 return accountBalance;
-	 }
-	 
-	 
+	UserBankAccount account = new UserBankAccount();
+	private static Scanner sc = new Scanner(System.in);
 
-	 //main method
-	 
-	public static void main(String[] args) 
-	{	
-		//creating constructor of UserBankAccount class
-		
-		UserBankAccount balance = new UserBankAccount();
-		
-		//calling input function from UserBankAccount class
-		
-		accountBalance = balance.input();
-		
-		
-		System.out.println("For display panel press 1 for exit press 0");
-		int choice = sc.nextInt();
-		
-		if(choice == 0)
-		{
-			System.exit(0);
+	// function to set up account details
+	public void initializeAccountDetails() {
+
+		System.out.println("Enter Account details:");
+		System.out.println("Enter username");
+
+		String username = sc.nextLine();
+		account.setUserName(username);
+
+		System.out.println("Enter mobileNumber");
+		long mobileNumber = sc.nextLong();
+		account.setMobileNumber(mobileNumber);
+
+		System.out.println("Enter accountNumber");
+		long accountNumber = sc.nextLong();
+		account.setAccountNumber(accountNumber);
+
+	}
+
+	//function to check balance
+	
+	public void displayBalance() {
+		System.out.println("Current Balance is: " + String.format("%.2f", account.getBalance()));
+	}
+
+	
+	//function to withdraw money
+	
+	public void withdraw() {
+
+		System.out.println("Enter amount to be withdrawn");
+		double amount = sc.nextDouble();
+
+		double balance = account.getBalance();
+		if (balance < amount) {
+			System.out.println("Sorry money cannot be withdrawn! Balance is less than the withdrawl amount.");
+			return;
 		}
-		
-		
-		while(choice == 1)
+		if(balance < 2000)
 		{
+			System.out.println("Insufficient balance!!!");
+			return;
+		}
+		balance -= amount;
+		account.setBalance(balance);
+		System.out.println("Transaction successfull");
+		displayBalance();
+	}
+
+	
+	//function to deposit money
+	
+	public void deposit() {
+		System.out.println("Enter amount to be deposited");
+		double amount = sc.nextDouble();
+		double balance = account.getBalance();
+		balance += amount;
+		account.setBalance(balance);
+		System.out.println("Transaction successfull");
+		displayBalance();
+	}
+
+	
+	//main method
+	
+	public static void main(String[] args) {
+		ATM atm = new ATM();
+		atm.initializeAccountDetails();
+		int choice = 0;
+
+		do {
+			System.out.println("Options:");
 			System.out.println("Press 1 for withdrawing money");
 			System.out.println("Press 2 for depositing money");
 			System.out.println("Press 3 for checking account balance");
 			System.out.println("Press 0 for exit");
+			choice = sc.nextInt();
+
+			//performing different operations according to user's choice
 			
-			int option = sc.nextInt();
-			
-			if(option == 1)
-			{
-				System.out.println("Enter amount to be withdrawn");
-				
-				int amount = sc.nextInt();
-				
-				int withdrawAmount = withdraw(amount);
-				System.out.println("Current account balance : "+ withdrawAmount);
+			switch (choice) {
+
+			case 0:
+				break;
+			case 1:
+				atm.withdraw();
+				break;
+			case 2:
+				atm.deposit();
+				break;
+			case 3:
+				atm.displayBalance();
+				break;
+			default:
+				System.out.println("Invalid choice");
 			}
-			
-			if(option == 2)
-			{
-				System.out.println("Enter amount to be deposited");
-				
-				int amount = sc.nextInt();
-				
-				int depositAmount = deposit(amount);
-				System.out.println("Current account balance : "+ depositAmount);
-			}
-			
-			if(option == 3)
-			{
-				int currentBalance = checkBalance();
-				System.out.println("Current account balance : "+ currentBalance);
-			}
-			
-			if(option == 0)
-			{
-				System.exit(0);
-			}
-		}
-		
+		} while (choice != 0);
 
 	}
 
